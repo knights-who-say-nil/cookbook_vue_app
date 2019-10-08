@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div>
+    <div class="new-form-section">
       <h1>New Recipe</h1>
       <ul>
         <li v-for="error in errors">{{ error }}</li>
@@ -30,20 +30,21 @@
         Image URL: <input type="text" v-model="newRecipeImageUrl">
       </div>
 
-
       <button v-on:click="createRecipe()">Create</button>
-    </div>
+    </div> <!-- end of .new-form-section -->
 
-    <h1>All Recipes</h1>
+    <div class="index-section">
+      <h1>All Recipes</h1>
 
-    <div v-for="recipe in recipes">
-      <h2>{{ recipe.title }}</h2>
-      <p>Ingredients: {{ recipe.ingredients }}</p>
-      <p>Directions: {{ recipe.directions }}</p>
-      
-      <img v-bind:src="recipe.image_url">
-      <br>
-    </div>
+      <div v-for="recipe in recipes">
+        <h2>{{ recipe.title }}</h2>
+        <p>Ingredients: {{ recipe.ingredients }}</p>
+        <p>Directions: {{ recipe.directions }}</p>
+        
+        <img v-bind:src="recipe.image_url">
+        <br>
+      </div>
+    </div> <!-- end of .index-section -->
 
   </div>
 </template>
