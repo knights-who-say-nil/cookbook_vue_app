@@ -5,6 +5,32 @@
       <ul>
         <li v-for="error in errors">{{ error }}</li>
       </ul>
+
+      <div>
+        Title: <input type="text" v-model="newRecipeTitle">
+      </div>
+
+      <div>
+        Chef: <input type="text" v-model="newRecipeChef">
+      </div>
+
+      <div>
+        Prep Time: <input type="text" v-model="newRecipePrepTime">
+      </div>
+
+      <div>
+        Ingredients: <input type="text" v-model="newRecipeIngredients">
+      </div>
+
+      <div>
+        Directions: <input type="text" v-model="newRecipeDirections">
+      </div>
+
+      <div>
+        Image URL: <input type="text" v-model="newRecipeImageUrl">
+      </div>
+
+
       <button v-on:click="createRecipe()">Create</button>
     </div>
 
@@ -35,7 +61,13 @@ export default {
   data: function() {
     return {
       recipes: [],
-      errors: []
+      errors: [],
+      newRecipeTitle: "",
+      newRecipeChef: "",
+      newRecipePrepTime: "",
+      newRecipeIngredients: "",
+      newRecipeDirections: "",
+      newRecipeImageUrl: ""
     };
   },
   created: function() {
@@ -50,12 +82,12 @@ export default {
       console.log("Create the recipe...");
 
       var clientParams = {
-        title: "example Title 3",
-        chef: "example Chef",
-        prep_time: "example Prep Time",
-        ingredients: "example Ingredients", 
-        directions: "example Directions",
-        image_url: "example Image URL"
+        title: this.newRecipeTitle,
+        chef: this.newRecipeChef,
+        prep_time: this.newRecipePrepTime,
+        ingredients: this.newRecipeIngredients,
+        directions: this.newRecipeDirections,
+        image_url: this.newRecipeImageUrl
       };
 
       axios
@@ -64,6 +96,13 @@ export default {
           console.log("success", response.data);
           this.recipes.push(response.data);
           this.errors = [];
+
+          this.newRecipeTitle = "";
+          this.newRecipeChef = "";
+          this.newRecipePrepTime = "";
+          this.newRecipeIngredients = "";
+          this.newRecipeDirections = "";
+          this.newRecipeImageUrl = "";
         })
         .catch(error => {
           this.errors = error.response.data.errors;
