@@ -38,11 +38,41 @@
 
       <div v-for="recipe in recipes">
         <h2>{{ recipe.title }}</h2>
-        <img v-on:click="currentRecipe = recipe" v-bind:src="recipe.image_url">
+        <img v-on:click="showRecipe(recipe)" v-bind:src="recipe.image_url">
 
         <div v-if="recipe === currentRecipe">
           <p>Ingredients: {{ recipe.ingredients }}</p>
           <p>Directions: {{ recipe.directions }}</p>
+
+          <div class="edit-form-section">
+            <h4>Edit Recipe</h4>
+
+            <div>
+              Title: <input type="text" v-model="recipe.title">
+            </div>
+
+            <div>
+              Chef: <input type="text" v-model="recipe.chef">
+            </div>
+
+            <div>
+              Prep Time: <input type="text" v-model="recipe.prep_time">
+            </div>
+
+            <div>
+              Ingredients: <input type="text" v-model="recipe.ingredients">
+            </div>
+
+            <div>
+              Directions: <input type="text" v-model="recipe.directions">
+            </div>
+
+            <div>
+              Image URL: <input type="text" v-model="recipe.image_url">
+            </div>
+
+            <button v-on:click="updateRecipe(recipe)">Update</button>
+          </div> <!-- end of .edit-form-section -->
         </div>
         
         <br>
@@ -83,6 +113,29 @@ export default {
       });
   },
   methods: {
+    updateRecipe: function(recipeObject) {
+      var clientParams = {
+        title: recipeObject.title,
+        chef: recipeObject.chef,
+        prep_time: recipeObject.prep_time,
+        ingredients: recipeObject.ingredients,
+        directions: recipeObject.directions,
+        image_url: recipeObject.image_url
+      };
+
+      axios
+        .patch("/api/recipes/" + recipeObject.id, clientParams)
+        .then(response => {
+          console.log("Success", response.data);
+        });
+    },
+    showRecipe: function(recipeObject) {
+      if (this.currentRecipe !== recipeObject) {
+        this.currentRecipe = recipeObject;
+      } else {
+        this.currentRecipe = {};
+      }
+    },
     createRecipe: function() {
       console.log("Create the recipe...");
 
